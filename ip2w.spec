@@ -52,6 +52,7 @@ systemctl daemon-reload
 
 
 %files
+%{__etcdir}
 %{__logdir}
 %{__bindir}
 %{__systemddir}

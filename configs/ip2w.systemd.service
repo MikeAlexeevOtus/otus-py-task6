@@ -4,6 +4,8 @@ After=network.target nginx.service
 
 [Service]
 ExecStart=/usr/sbin/uwsgi --ini /usr/local/etc/%i/uwsgi.ini
+User=uwsgi
+Group=uwsgi
 
 [Install]
 WantedBy=multi-user.target
