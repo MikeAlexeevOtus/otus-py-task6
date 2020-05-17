@@ -1,1 +1,1 @@
-d     /run/ip2w   0775 uwsgi uwsgi
+d     /run/ip2w   0775 ip2w ip2w
