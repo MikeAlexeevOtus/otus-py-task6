@@ -3,6 +3,7 @@ import logging.handlers
 import json
 import os
 from collections import namedtuple
+from functools import wraps
 
 import requests
 
@@ -48,8 +49,21 @@ def get_weather(api_args: ApiArgs) -> dict:
     return resp.json()
 
 
+def error_handler(f):
+    @wraps(f)
+    def wrapper(env, start_response):
+        try:
+            return f(env, start_response)
+        except Exception:
+            logging.exception('error request processing')
+            start_response('500 Internal Server Error', [('Content-Type', 'text/plain')])
+            return [b'internal server error']
+
+    return wrapper
+
+
+@error_handler
 def application(env, start_response):
-    start_response('200 OK', [('Content-Type', 'application/json')])
     ipaddr = env['PATH_INFO'].strip('/')
     # TODO - addr validation
     logging.debug('new request with ip: %s', ipaddr)
@@ -64,23 +78,17 @@ def application(env, start_response):
                             params={'ipaddr': ipaddr},
                             timeout=api_request_timeout,
                             proxies=proxies)
-    try:
-        city = get_city(city_api_args)
-    except Exception:
-        logging.exception('failed to get city, args: %s', city_api_args)
-        raise
 
+    city = get_city(city_api_args)
     logging.debug('resolved city: %s', city)
-    weather_api_args = ApiArgs(url=CONFIG['weather_api_args'],
+
+    weather_api_args = ApiArgs(url=CONFIG['weather_api_url'],
                                token=CONFIG['weather_api_token'],
                                params={'city': city},
                                timeout=api_request_timeout,
                                proxies=proxies)
 
-    try:
-        weather_info = get_weather(weather_api_args)
-    except Exception:
-        logging.exception('failed to get weather, args: %s', weather_api_args)
-        raise
+    weather_info = get_weather(weather_api_args)
 
+    start_response('200 OK', [('Content-Type', 'application/json')])
     return [json.dumps(weather_info).encode('utf-8')]
