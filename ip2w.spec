@@ -23,6 +23,7 @@ Git version: %{git_version} (branch: %{git_branch})
 %define __logdir    /var/log/%{name}
 %define __bindir    /usr/local/bin/%{name}
 %define __systemddir	/usr/lib/systemd/system
+%define __tmpfilesdir    /etc/tmpfiles.d/
 
 %prep
 tar xf %{SOURCE0} --strip 1
@@ -33,13 +34,16 @@ tar xf %{SOURCE0} --strip 1
 %{__mkdir} -p %{buildroot}/%{__logdir}
 %{__mkdir} -p %{buildroot}/%{__etcdir}
 %{__mkdir} -p %{buildroot}/%{__bindir}
+%{__mkdir} -p %{buildroot}/%{__tmpfilesdir}
 %{__install} -pD -m 644 %{_builddir}/configs/%{name}.systemd.service %{buildroot}/%{__systemddir}/%{name}.service
 %{__install} -pD -m 644 %{_builddir}/configs/%{name}.uwsgi.ini %{buildroot}/%{__etcdir}/uwsgi.ini
+%{__install} -pD -m 644 %{_builddir}/configs/%{name}.tmpfiles %{buildroot}/%{__tmpfilesdir}/%{name}.conf
 %{__install} -pD -m 644 %{_builddir}/src/app.py %{buildroot}/%{__bindir}/app.py
 
 %post
 %systemd_post %{name}.service
 systemctl daemon-reload
+systemd-tmpfiles --create
 
 %preun
 %systemd_preun %{name}.service
