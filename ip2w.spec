@@ -12,7 +12,7 @@ Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
 BuildRequires: systemd
-Requires: python3 nginx uwsgi uwsgi-plugin-python36 uwsgi-logger-syslog uwsgi-plugin-common
+Requires: python3 python36-requests nginx uwsgi uwsgi-plugin-python36 uwsgi-logger-syslog uwsgi-plugin-common
 Summary:  simple uwsgi daemon
 
 
@@ -40,6 +40,7 @@ tar xf %{SOURCE0} --strip 1
 %{__mkdir} -p %{buildroot}/%{__rsyslog_conf_dir}
 %{__install} -pD -m 644 %{_builddir}/configs/%{name}.systemd.service %{buildroot}/%{__systemddir}/%{name}.service
 %{__install} -pD -m 644 %{_builddir}/configs/%{name}.uwsgi.ini %{buildroot}/%{__etcdir}/uwsgi.ini
+%{__install} -pD -m 644 %{_builddir}/configs/config.json %{buildroot}/%{__etcdir}/config.json
 %{__install} -pD -m 644 %{_builddir}/configs/%{name}.rsyslog.conf %{buildroot}/%{__rsyslog_conf_dir}/%{name}.conf
 %{__install} -pD -m 644 %{_builddir}/configs/%{name}.tmpfiles %{buildroot}/%{__tmpfilesdir}/%{name}.conf
 %{__install} -pD -m 644 %{_builddir}/configs/%{name}.nginx.conf %{buildroot}/%{__etcdir}/nginx.conf

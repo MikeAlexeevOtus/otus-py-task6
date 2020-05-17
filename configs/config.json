@@ -1,0 +1,6 @@
+{
+    "proxies": {},
+    "weather_api_url": "http://api.weatherstack.com/current",
+    "weather_api_token": "secret",
+    "ipinfo_api_url": "https://ipinfo.io"
+}
