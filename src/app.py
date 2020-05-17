@@ -29,7 +29,7 @@ if CONFIG.get('debug'):
     logging.getLogger().setLevel(logging.DEBUG)
 
 
-def get_city(api_args: ApiArgs) -> dict:
+def get_city(api_args: ApiArgs) -> str:
     url = '{base_url}/{ipaddr}'.format(base_url=api_args.url,
                                        ipaddr=api_args.params['ipaddr'])
 
@@ -54,6 +54,7 @@ def error_handler(f):
     def wrapper(env, start_response):
         try:
             return f(env, start_response)
+        # TODO - handle 40x errors here
         except Exception:
             logging.exception('error request processing')
             start_response('500 Internal Server Error', [('Content-Type', 'text/plain')])
