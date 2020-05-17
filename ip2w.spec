@@ -12,7 +12,7 @@ Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
 BuildRequires: systemd
-Requires: uwsgi
+Requires: python3 uwsgi uwsgi-plugin-python36 uwsgi-logger-syslog uwsgi-plugin-common
 Summary:  simple uwsgi daemon
 
 
