@@ -8,7 +8,7 @@ import requests
 DEFAULT_CONFIG_PATH = '/usr/local/etc/ip2w/config.json'
 
 log_handler = logging.handlers.SysLogHandler(address='/dev/log')
-log_handler.ident = 'ip2w'
+log_handler.ident = 'ip2w '
 logging.basicConfig(level=logging.INFO, handlers=[log_handler])
 
 

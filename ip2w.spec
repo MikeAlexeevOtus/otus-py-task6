@@ -55,7 +55,7 @@ nginx -t
 rsyslogd -N1
 id %{name} || useradd  %{name}
 usermod nginx -aG %{name}
-systemctl reload rsyslog
+systemctl restart rsyslog
 
 %preun
 %systemd_preun %{name}.service
