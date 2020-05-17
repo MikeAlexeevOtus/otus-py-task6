@@ -1,11 +1,11 @@
 [Unit]
-Description=%i
+Description=%N
 After=network.target nginx.service
 
 [Service]
-ExecStart=/usr/sbin/uwsgi --ini /usr/local/etc/%i/uwsgi.ini
-User=ip2w
-Group=ip2w
+ExecStart=/usr/sbin/uwsgi --ini /usr/local/etc/%N/uwsgi.ini
+User=%N
+Group=%N
 
 [Install]
 WantedBy=multi-user.target
