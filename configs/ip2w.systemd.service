@@ -1,0 +1,9 @@
+[Unit]
+Description=%i
+After=network.target nginx.service
+
+[Service]
+ExecStart=/usr/sbin/uwsgi --ini /usr/local/etc/%i/uwsgi.ini
+
+[Install]
+WantedBy=multi-user.target

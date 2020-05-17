@@ -1,7 +1,7 @@
 License:        BSD
 Vendor:         Otus
 Group:          PD01
-URL:            http://otus.ru/lessons/3/
+URL:            http://otus.ru/lessons/11/
 Source0:        otus-%{current_datetime}.tar.gz
 BuildRoot:      %{_tmppath}/otus-%{current_datetime}
 Name:           ip2w
@@ -12,7 +12,7 @@ Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
 BuildRequires: systemd
-Requires: python3 uwsgi uwsgi-plugin-python36 uwsgi-logger-syslog uwsgi-plugin-common
+Requires: python3 nginx uwsgi uwsgi-plugin-python36 uwsgi-logger-syslog uwsgi-plugin-common
 Summary:  simple uwsgi daemon
 
 
@@ -21,7 +21,7 @@ Git version: %{git_version} (branch: %{git_branch})
 
 %define __etcdir    /usr/local/etc/%{name}
 %define __logdir    /var/log/%{name}
-%define __bindir    /usr/local/%{name}
+%define __bindir    /usr/local/bin/%{name}
 %define __systemddir	/usr/lib/systemd/system
 
 %prep
@@ -33,7 +33,9 @@ tar xf %{SOURCE0} --strip 1
 %{__mkdir} -p %{buildroot}/%{__logdir}
 %{__mkdir} -p %{buildroot}/%{__etcdir}
 %{__mkdir} -p %{buildroot}/%{__bindir}
-%{__install} -pD -m 644 %{_builddir}/configs/%{name}.service %{buildroot}/%{__systemddir}/%{name}.service
+%{__install} -pD -m 644 %{_builddir}/configs/%{name}.systemd.service %{buildroot}/%{__systemddir}/%{name}.service
+%{__install} -pD -m 644 %{_builddir}/configs/%{name}.uwsgi.ini %{buildroot}/%{__etcdir}/uwsgi.ini
+%{__install} -pD -m 644 %{_builddir}/src/app.py %{buildroot}/%{__bindir}/app.py
 
 %post
 %systemd_post %{name}.service
