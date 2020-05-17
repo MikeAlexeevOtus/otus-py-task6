@@ -24,6 +24,7 @@ Git version: %{git_version} (branch: %{git_branch})
 %define __bindir    /usr/local/bin/%{name}
 %define __systemddir	/usr/lib/systemd/system
 %define __tmpfilesdir    /etc/tmpfiles.d/
+%define __nginx_conf_link /etc/nginx/default.d/ip2w.conf
 
 %prep
 tar xf %{SOURCE0} --strip 1
@@ -38,18 +39,21 @@ tar xf %{SOURCE0} --strip 1
 %{__install} -pD -m 644 %{_builddir}/configs/%{name}.systemd.service %{buildroot}/%{__systemddir}/%{name}.service
 %{__install} -pD -m 644 %{_builddir}/configs/%{name}.uwsgi.ini %{buildroot}/%{__etcdir}/uwsgi.ini
 %{__install} -pD -m 644 %{_builddir}/configs/%{name}.tmpfiles %{buildroot}/%{__tmpfilesdir}/%{name}.conf
+%{__install} -pD -m 644 %{_builddir}/configs/%{name}.nginx.conf %{buildroot}/%{__etcdir}/nginx.conf
 %{__install} -pD -m 644 %{_builddir}/src/app.py %{buildroot}/%{__bindir}/app.py
 
 %post
 %systemd_post %{name}.service
 systemctl daemon-reload
 systemd-tmpfiles --create
+ln -sf %{__etcdir}/nginx.conf %{__nginx_conf_link}
 
 %preun
 %systemd_preun %{name}.service
 
 %postun
 %systemd_postun %{name}.service
+rm -f %{__nginx_conf_link}
 
 %clean
 [ "%{buildroot}" != "/" ] && rm -fr %{buildroot}
