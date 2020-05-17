@@ -47,6 +47,9 @@ tar xf %{SOURCE0} --strip 1
 systemctl daemon-reload
 systemd-tmpfiles --create
 ln -sf %{__etcdir}/nginx.conf %{__nginx_conf_link}
+nginx -t
+id %{name} || useradd  %{name}
+usermod nginx -aG %{name}
 
 %preun
 %systemd_preun %{name}.service
