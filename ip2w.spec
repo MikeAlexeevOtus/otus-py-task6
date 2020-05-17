@@ -51,8 +51,10 @@ systemctl daemon-reload
 systemd-tmpfiles --create
 ln -sf %{__etcdir}/nginx.conf %{__nginx_conf_link}
 nginx -t
+rsyslogd -N1
 id %{name} || useradd  %{name}
 usermod nginx -aG %{name}
+systemctl reload rsyslog
 
 %preun
 %systemd_preun %{name}.service

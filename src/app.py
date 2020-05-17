@@ -2,7 +2,7 @@ import logging
 import logging.handlers
 
 
-log_handler = logging.handlers.SysLogHandler()
+log_handler = logging.handlers.SysLogHandler(address='/dev/log')
 log_handler.ident = 'ip2w'
 logging.basicConfig(level=logging.INFO, handlers=[log_handler])
 
