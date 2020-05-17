@@ -60,3 +60,4 @@ systemd-tmpfiles --create
 %{__logdir}
 %{__bindir}
 %{__systemddir}
+%{__tmpfilesdir}
