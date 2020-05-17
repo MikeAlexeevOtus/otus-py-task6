@@ -1,0 +1,7 @@
+*.pyc
+.*.sw?
+*.pdf
+*.ipynb
+*.todo
+*.gz
+homework
