@@ -40,6 +40,7 @@ tar xf %{SOURCE0} --strip 1
 %{__install} -pD -m 644 %{_builddir}/configs/%{name}.uwsgi.ini %{buildroot}/%{__etcdir}/uwsgi.ini
 %{__install} -pD -m 644 %{_builddir}/configs/%{name}.tmpfiles %{buildroot}/%{__tmpfilesdir}/%{name}.conf
 %{__install} -pD -m 644 %{_builddir}/configs/%{name}.nginx.conf %{buildroot}/%{__etcdir}/nginx.conf
+%{__install} -pD -m 644 %{_builddir}/configs/%{name}.rsyslog.conf %{buildroot}/rsyslog.d/%{name}.conf
 %{__install} -pD -m 644 %{_builddir}/src/app.py %{buildroot}/%{__bindir}/app.py
 
 %post
