@@ -12,27 +12,28 @@ Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
 BuildRequires: systemd
-Requires:
-Summary:  ...
+Requires: uwsgi
+Summary:  simple uwsgi daemon
 
 
 %description
-...
 Git version: %{git_version} (branch: %{git_branch})
 
-%define __etcdir    /usr/local/etc
-%define __logdir    /val/log/
-%define __bindir    /usr/local/ip2w/
-%define __systemddir	/usr/lib/systemd/system/
+%define __etcdir    /usr/local/etc/%{name}
+%define __logdir    /var/log/%{name}
+%define __bindir    /usr/local/%{name}
+%define __systemddir	/usr/lib/systemd/system
 
 %prep
-...
+tar xf %{SOURCE0} --strip 1
 
 %install
 [ "%{buildroot}" != "/" ] && rm -fr %{buildroot}
 %{__mkdir} -p %{buildroot}/%{__systemddir}
-%{__install} -pD -m 644 ... %{buildroot}/%{__systemddir}/%{name}.service
-...
+%{__mkdir} -p %{buildroot}/%{__logdir}
+%{__mkdir} -p %{buildroot}/%{__etcdir}
+%{__mkdir} -p %{buildroot}/%{__bindir}
+%{__install} -pD -m 644 %{_builddir}/configs/%{name}.service %{buildroot}/%{__systemddir}/%{name}.service
 
 %post
 %systemd_post %{name}.service
@@ -52,5 +53,3 @@ systemctl daemon-reload
 %{__logdir}
 %{__bindir}
 %{__systemddir}
-%{__sysconfigdir}
-...
