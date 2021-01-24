@@ -1,6 +1,6 @@
 {
     "proxies": {},
-    "weather_api_url": "http://api.weatherstack.com/current",
+    "weather_api_url": "http://api.openweathermap.org/data/2.5/weather",
     "weather_api_token": "secret",
     "ipinfo_api_url": "https://ipinfo.io",
     "api_request_timeout": 10

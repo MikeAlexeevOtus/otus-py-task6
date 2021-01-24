@@ -40,8 +40,8 @@ def get_city(api_args: ApiArgs) -> str:
 
 def get_weather(api_args: ApiArgs) -> dict:
     params = {
-        'access_key': api_args.token,
-        'query': api_args.params['city']
+        'appid': api_args.token,
+        'q': api_args.params['city']
     }
     resp = requests.get(api_args.url, params=params,
                         proxies=api_args.proxies, timeout=api_args.timeout)
