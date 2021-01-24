@@ -4,5 +4,6 @@
 *.ipynb
 *.todo
 *.gz
+tags
 homework
 homework.*
